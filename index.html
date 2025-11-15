@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>恒轩影视</title>
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 统一的 Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1a237e',
+                        secondary: '#42a5f5',
+                        accent: '#ff9800',
+                        dark: '#121212',
+                        'dark-light': '#1e1e1e',
+                        'dark-lighter': '#2d2d2d'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            }
+            .text-gradient {
+                background-clip: text;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+            .bg-blur {
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+            }
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        }
+    </style>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        
+        .hero-bg {
+            background-image: url('https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/db82fd28f4bc45e690c80718f949de00~tplv-a9rns2rl98-image.image?rcl=20251112134024D524EF8B61623BA78361&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1765518069&x-signature=rkF2wo8U3nH%2Bh61h4dOGB5nOx%2F4%3D');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(18, 18, 18, 0.7), rgba(18, 18, 18, 0.95));
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(66, 165, 245, 0.1), 0 10px 10px -5px rgba(66, 165, 245, 0.04);
+        }
+        
+        .download-btn {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .download-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+        
+        .download-btn:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .copy-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .copy-btn:hover {
+            background-color: #42a5f5;
+            color: white;
+        }
+        
+        .copy-btn.copied {
+            background-color: #4caf50;
+            color: white;
+        }
+        
+        .app-screen {
+            transition: all 0.5s ease;
+        }
+        
+        .app-screen:hover {
+            transform: scale(1.02);
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #42a5f5;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .active-nav::after {
+            width: 100%;
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, #42a5f5, #ff9800);
+        }
+        
+        .movie-card {
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .movie-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .movie-card img {
+            transition: transform 0.5s ease;
+        }
+        
+        .movie-card:hover img {
+            transform: scale(1.05);
+        }
+        
+        .traffic-card {
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        
+        .traffic-card:hover {
+            border-color: #42a5f5;
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="bg-dark-light bg-opacity-90 bg-blur fixed w-full z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                  <img src="https://gitee.com/t-v/tt/raw/t/t/hx.gif" alt="" class="h-10">                  
+                    <span class="ml-2 text-xl font-bold text-white"> 恒轩影视 </span>
+                </div>
+                
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="nav-link text-white hover:text-secondary active-nav">恒轩影视</a>
+                    
+                    </div>
+                
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-white focus:outline-none">
+                        <i class="fa fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+           
+            </div>
+        </div>
+    </nav>
+
+   
+   
+
+    <!-- 影视区域 -->
+    <section id="download" class="py-20 bg-gradient-to-b from-dark to-dark-light">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center section-title mx-auto">影视下载</h2>
+            
+            <div class="mb-12">
+                <div class="bg-dark-light p-6 rounded-xl shadow-lg mb-8">
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="fa fa-info-circle text-secondary mr-2"></i> 使用教程
+                    </h3>
+                    <p class="text-gray-400 mb-4">下载软件后直接复制以下链接到设置-点播-使用配置接口</p>
+                    
+                    <div class="flex flex-col md:flex-row items-center gap-4">
+                        <div class="flex-1 bg-dark rounded-lg p-3 flex items-center">
+                            <input type="text" id="config-url-1" value="http://suo.im/7ooy7" class="bg-transparent border-none outline-none text-white flex-1" readonly>
+                            <button id="copy-btn-1" class="copy-btn ml-2 px-4 py-2 rounded-lg bg-dark-lighter hover:bg-secondary transition duration-300">
+                                <i class="fa fa-copy mr-1"></i> 复制
+                            </button>
+                        </div>
+                        <div id="copy-notification-1" class="hidden text-green-500">
+                            <i class="fa fa-check-circle mr-1"></i> 已复制
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- 手机版 -->
+                <div class="bg-dark-light p-8 rounded-xl shadow-lg">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-2xl font-bold">手机版</h3>
+                        <span class="bg-secondary text-white px-3 py-1 rounded-full text-sm"> </span>
+                    </div>
+                    
+                    
+                    
+                    <div class="space-y-4">
+                        <a href="https://d.kstore.dev/download/12212/影视.apk" target="_blank" class="download-btn block bg-secondary hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center">
+                            <i class="fa fa-android mr-2"></i> 手机版 <span class="ml-2 text-sm bg-white bg-opacity-20 px-2 py-0.5 rounded">点击下载</span>
+                        </a>
+                        
+                    </div>
+                </div>
+                
+                <!-- 电视版 -->
+                <div class="bg-dark-light p-8 rounded-xl shadow-lg">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-2xl font-bold">电视版</h3>
+                        <span class="bg-secondary text-white px-3 py-1 rounded-full text-sm"> </span>
+                    </div>
+                    
+                   
+                    
+                    <div class="space-y-4">
+                        <a href="https://cns.xn--yhqu5zs87a.top/https://github.com/FongMi/Release/raw/fongmi/apk/release/leanback-armeabi_v7a.apk" target="_blank" class="download-btn block bg-accent hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center">
+                            <i class="fa fa-television mr-2"></i> 电视版 <span class="ml-2 text-sm bg-white bg-opacity-20 px-2 py-0.5 rounded">点击下载</span>
+                        </a>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- 音乐区域 -->
+    <section id="music" class="py-20 bg-gradient-to-b from-dark to-dark-light">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center section-title mx-auto">音乐下载</h2>
+            
+            <div class="mb-12">
+                <div class="bg-dark-light p-6 rounded-xl shadow-lg mb-8">
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="fa fa-info-circle text-secondary mr-2"></i> 使用教程
+                    </h3>
+                    <p class="text-gray-400 mb-4">下载软件后直接复制以下链接到设置-插件管理-网络插件-使用配置接口</p>
+                    
+                    <div class="flex flex-col md:flex-row items-center gap-4">
+                        <div class="flex-1 bg-dark rounded-lg p-3 flex items-center">
+                            <input type="text" id="config-url-2" value="https://gitee.com/t-v/tt/raw/t/yinyue.json" class="bg-transparent border-none outline-none text-white flex-1" readonly>
+                            <button id="copy-btn-2" class="copy-btn ml-2 px-4 py-2 rounded-lg bg-dark-lighter hover:bg-secondary transition duration-300">
+                                <i class="fa fa-copy mr-1"></i> 复制
+                            </button>
+                        </div>
+                        <div id="copy-notification-2" class="hidden text-green-500">
+                            <i class="fa fa-check-circle mr-1"></i> 已复制
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- 手机版 -->
+                <div class="bg-dark-light p-8 rounded-xl shadow-lg">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-2xl font-bold">手机版</h3>
+                        <span class="bg-secondary text-white px-3 py-1 rounded-full text-sm"> </span>
+                    </div>
+                    
+                    
+                    
+                    <div class="space-y-4">
+                        <a href="https://d.kstore.dev/download/12212/音乐.apk" target="_blank" class="download-btn block bg-secondary hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center">
+                            <i class="fa fa-android mr-2"></i> 手机版 <span class="ml-2 text-sm bg-white bg-opacity-20 px-2 py-0.5 rounded">点击下载</span>
+                        </a>
+                        
+                    </div>
+                </div>
+                
+                <!-- 电脑版 -->
+                <div class="bg-dark-light p-8 rounded-xl shadow-lg">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-2xl font-bold">电脑版</h3>
+                        <span class="bg-secondary text-white px-3 py-1 rounded-full text-sm"> </span>
+                    </div>
+                    
+                   
+                    
+                    <div class="space-y-4">
+                        <a href="https://d.kstore.dev/download/12212/音乐电脑版.exe" target="_blank" class="download-btn block bg-accent hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center">
+                            <i class="fa fa-television mr-2"></i> 电脑版 <span class="ml-2 text-sm bg-white bg-opacity-20 px-2 py-0.5 rounded">点击下载</span>
+                        </a>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- 阅读区域 -->
+    <section id="reading" class="py-20 bg-gradient-to-b from-dark to-dark-light">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center section-title mx-auto">阅读下载</h2>
+            
+            <div class="mb-12">
+                <div class="bg-dark-light p-6 rounded-xl shadow-lg mb-8">
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="fa fa-info-circle text-secondary mr-2"></i> 使用教程
+                    </h3>
+                    <p class="text-gray-400 mb-4">下载软件后直接复制以下链接到设置-书源管理-网络导入-使用配置接口</p>
+                    
+                    <div class="flex flex-col md:flex-row items-center gap-4">
+                        <div class="flex-1 bg-dark rounded-lg p-3 flex items-center">
+                            <input type="text" id="config-url-3" value="https://gitee.com/t-v/tt/raw/t/yuedu.json" class="bg-transparent border-none outline-none text-white flex-1" readonly>
+                            <button id="copy-btn-3" class="copy-btn ml-2 px-4 py-2 rounded-lg bg-dark-lighter hover:bg-secondary transition duration-300">
+                                <i class="fa fa-copy mr-1"></i> 复制
+                            </button>
+                        </div>
+                        <div id="copy-notification-3" class="hidden text-green-500">
+                            <i class="fa fa-check-circle mr-1"></i> 已复制
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- 手机版 -->
+                <div class="bg-dark-light p-8 rounded-xl shadow-lg">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-2xl font-bold">手机版</h3>
+                        <span class="bg-secondary text-white px-3 py-1 rounded-full text-sm"> </span>
+                    </div>
+                    
+                  
+                    
+                    <div class="space-y-4">
+                        <a href="https://d.kstore.dev/download/12212/阅读.apk" target="_blank" class="download-btn block bg-secondary hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center">
+                            <i class="fa fa-android mr-2"></i> 手机版 <span class="ml-2 text-sm bg-white bg-opacity-20 px-2 py-0.5 rounded">点击下载</span>
+                        </a>
+                       
+                    </div>
+                </div>
+                         
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <!-- 底部信息区 -->
+    <footer class="bg-dark-light py-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center">
+                    
+                    </div>
+                    <p class="text-gray-400 mt-2">高品质影视娱乐平台</p>
+                </div>
+                
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-secondary transition duration-300">
+                        <i class="fa fa-facebook-square text-2xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-secondary transition duration-300">
+                        <i class="fa fa-twitter-square text-2xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-secondary transition duration-300">
+                        <i class="fa fa-instagram text-2xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-secondary transition duration-300">
+                        <i class="fa fa-youtube-play text-2xl"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <hr class="border-gray-800 my-8">
+            
+            <div class="text-center text-gray-500 text-sm">
+                <p>© 2025  保留所有权利。</p>
+                <p class="mt-2">本站内容均来自互联网，仅供测试和学习使用，请勿用于商业用途。</p>
+                <p class="mt-1">如有侵权请联系我们，我们将在24小时内删除。</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 bg-secondary hover:bg-blue-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg opacity-0 invisible transition-all duration-300 z-50">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // 移动端菜单切换
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // 复制配置链接 - 影视区域
+        document.getElementById('copy-btn-1').addEventListener('click', function() {
+            const configUrl = document.getElementById('config-url-1');
+            configUrl.select();
+            document.execCommand('copy');
+            
+            const copyBtn = document.getElementById('copy-btn-1');
+            const copyNotification = document.getElementById('copy-notification-1');
+            
+            copyBtn.classList.add('copied');
+            copyBtn.innerHTML = '<i class="fa fa-check mr-1"></i> 已复制';
+            copyNotification.classList.remove('hidden');
+            
+            setTimeout(() => {
+                copyBtn.classList.remove('copied');
+                copyBtn.innerHTML = '<i class="fa fa-copy mr-1"></i> 复制';
+                copyNotification.classList.add('hidden');
+            }, 2000);
+        });
+        
+        // 复制配置链接 - 音乐区域
+        document.getElementById('copy-btn-2').addEventListener('click', function() {
+            const configUrl = document.getElementById('config-url-2');
+            configUrl.select();
+            document.execCommand('copy');
+            
+            const copyBtn = document.getElementById('copy-btn-2');
+            const copyNotification = document.getElementById('copy-notification-2');
+            
+            copyBtn.classList.add('copied');
+            copyBtn.innerHTML = '<i class="fa fa-check mr-1"></i> 已复制';
+            copyNotification.classList.remove('hidden');
+            
+            setTimeout(() => {
+                copyBtn.classList.remove('copied');
+                copyBtn.innerHTML = '<i class="fa fa-copy mr-1"></i> 复制';
+                copyNotification.classList.add('hidden');
+            }, 2000);
+        });
+        
+        // 复制配置链接 - 阅读区域
+        document.getElementById('copy-btn-3').addEventListener('click', function() {
+            const configUrl = document.getElementById('config-url-3');
+            configUrl.select();
+            document.execCommand('copy');
+            
+            const copyBtn = document.getElementById('copy-btn-3');
+            const copyNotification = document.getElementById('copy-notification-3');
+            
+            copyBtn.classList.add('copied');
+            copyBtn.innerHTML = '<i class="fa fa-check mr-1"></i> 已复制';
+            copyNotification.classList.remove('hidden');
+            
+            setTimeout(() => {
+                copyBtn.classList.remove('copied');
+                copyBtn.innerHTML = '<i class="fa fa-copy mr-1"></i> 复制';
+                copyNotification.classList.add('hidden');
+            }, 2000);
+        });
+        
+        // 导航链接高亮
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (pageYOffset >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active-nav');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active-nav');
+                }
+            });
+            
+            // 返回顶部按钮显示/隐藏
+            const backToTopBtn = document.getElementById('back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.remove('opacity-0', 'invisible');
+                backToTopBtn.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopBtn.classList.add('opacity-0', 'invisible');
+                backToTopBtn.classList.remove('opacity-100', 'visible');
+            }
+        });
+        
+        // 返回顶部
+        document.getElementById('back-to-top').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    
+                    // 如果是移动端，点击后关闭菜单
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+        
+        // 添加页面加载动画
+        window.addEventListener('load', () => {
+            document.body.classList.add('loaded');
+        });
+    </script>
+</body>
+</html>
+
+
+
+
